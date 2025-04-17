@@ -1,0 +1,47 @@
+backend/
+│
+├── config/
+│   ├── config.env          # Environment variables
+│   └── db.js               # MongoDB connection setup
+│
+├── models/
+│   ├── User.js             # User schema
+│   ├── Citizen.js          # Citizen schema
+│   ├── Admin.js            # Admin schema
+│   ├── Report.js           # Report schema
+│   ├── Alert.js            # Alert schema
+│   ├── Message.js          # Message schema
+│   ├── Operation.js        # Operation schema
+│   ├── Zone.js             # Zone schema
+│   ├── Route.js            # Route schema
+│   └── Map.js              # Map schema
+│
+├── routes/
+│   ├── userRoutes.js       # Routes for user-related operations
+│   ├── reportRoutes.js     # Routes for reports
+│   ├── alertRoutes.js      # Routes for alerts
+│   ├── messageRoutes.js    # Routes for messages
+│   ├── operationRoutes.js  # Routes for operations
+│   ├── zoneRoutes.js       # Routes for zones
+│   ├── routeRoutes.js      # Routes for routes
+│   └── mapRoutes.js        # Routes for maps
+│
+├── controllers/
+│   ├── userController.js   # Logic for user-related operations
+│   ├── reportController.js # Logic for reports
+│   ├── alertController.js  # Logic for alerts
+│   ├── messageController.js# Logic for messages
+│   ├── operationController.js # Logic for operations
+│   ├── zoneController.js   # Logic for zones
+│   ├── routeController.js  # Logic for routes
+│   └── mapController.js    # Logic for maps
+│
+├── middleware/
+│   ├── authMiddleware.js   # Authentication middleware (JWT)
+│   └── errorMiddleware.js  # Error handling middleware
+│
+├── utils/
+│   └── notificationService.js # WebSocket or push notification logic
+│
+├── server.js               # Entry point for the backend
+└── package.json            # Dependencies and scripts
