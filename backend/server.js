@@ -21,8 +21,9 @@ const PORT = process.env.PORT || 3000;
 const adminRoutes = require('./routes/adminRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const reportRoutes = require('./routes/reportRoutes');
-const zoneRoutes = require('./routes/zoneRoutes')
-const routeRoutes = require('./routes/routeRoutes')
+const zoneRoutes = require('./routes/zoneRoutes');
+const routeRoutes = require('./routes/routeRoutes');
+const operationRoutes = require('./routes/operationRoutes');
 
 
 // Middleware to parse incoming JSON requests
@@ -37,6 +38,7 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/zones', zoneRoutes);
 app.use('/api/routes', routeRoutes);
+app.use('/api/operations', operationRoutes);
 
 // We create an HTTP server from the Express app
 const server = http.createServer(app);
