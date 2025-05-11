@@ -70,7 +70,7 @@ To run this project locally, follow these steps:
 
 5. Start the server:
   ```bash
-  npm start
+  node server.js
   ```
 ## Frontend (React):
 
