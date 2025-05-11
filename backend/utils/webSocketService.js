@@ -20,6 +20,29 @@ function broadcast(eventName, data) {
   io.emit(eventName, data);
 }
 
+function joinRoom(roomName, socket) {
+  if (!io) {
+    console.warn('WebSocket not initialized');
+    return;
+  }
+  socket.join(roomName);
+}
+
+function broadcastToRoom(roomName, eventName, data) {
+  if (!io) {
+    console.warn('WebSocket not initialized');
+    return;
+  }
+  io.to(roomName).emit(eventName, data);
+}
+
+module.exports = {
+  setSocketInstance,
+  broadcast,
+  joinRoom,
+  broadcastToRoom,
+};
+
 // We optionally expose other socket-related helpers in the future here
 
 module.exports = {

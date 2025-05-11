@@ -30,6 +30,10 @@ const trendingAlertSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  expiresAt: {
+    type: Date,
+    default: () => new Date(Date.now() + 6 * 3600000), // 6 hours from now
+  },
 });
 
 // This allows for geospatial queries, we will use this for the trending logic

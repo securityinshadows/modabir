@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Operation = require('../models/Operation');
 const mongoose = require('mongoose');
+const { broadcast } = require('../utils/webSocketService');
 
 // @desc    Create a new operation
 // @route   POST /api/operations
@@ -55,6 +56,7 @@ const createOperation = asyncHandler(async (req, res) => {
     createdBy: req.admin._id
   });
 
+  broadcast(operation);
   // We return a 201 Created message
   res.status(201).json({
     success: true,

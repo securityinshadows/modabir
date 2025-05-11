@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/Post');
 const Operation = require('../models/Operation');
 const mongoose = require('mongoose');
+const broadcast = require('../utils/webSocketService');
 
 // @desc    Get all posts for an operation
 // @route   GET /api/operations/:operationId/posts
@@ -64,9 +65,8 @@ const createPost = asyncHandler(async (req, res) => {
     return;
   }
 
-  // We ensure the post has content
-  if (!content) {
-    res.status(400).json({ success: false, message: 'Content is required' });
+  if (!content && media.length === 0) {
+    res.status(400).json({ success: false, message: 'Content or media is required' });
     return;
   }
   // When content is passed we check if the operation exists
@@ -93,6 +93,9 @@ const createPost = asyncHandler(async (req, res) => {
   const populatedPost = await Post.findById(post._id)
     .populate('author', 'username email')
     .populate('operation', 'name');
+
+
+    broadcast.postCreated(populatedPost);
 // We return a 201 Created message
   res.status(201).json({
     success: true,

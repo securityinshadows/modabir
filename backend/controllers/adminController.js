@@ -50,6 +50,17 @@ const adminExists = await Admin.findOne({ email });
   }
 });
 
+
+
+
+// @desc    Get all admins
+// @route   GET /api/admins
+// @access  Admin-only
+const getAllAdmins = asyncHandler(async (req, res) => {
+  const admins = await Admin.find().select('-password'); // Exclude passwords
+  res.json(admins);
+});
+
 // @desc    Authenticate admin and get token
 // @route   POST /api/admins/login
 // @access  Public
@@ -86,4 +97,5 @@ const generateToken = (id) => {
 module.exports = {
   registerAdmin,
   loginAdmin,
+  getAllAdmins
 };

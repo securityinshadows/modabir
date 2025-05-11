@@ -7,7 +7,7 @@ const websocketService = require('./webSocketService');
 
 // We create constants for config
 const TRENDING_RADIUS_METERS = 5000; // 5km search radius
-const ALERT_EXPIRY_HOURS = 6; // Trending alerts expire after 6 hours
+const ALERT_EXPIRY_HOURS = 24; // Trending alerts expire after 6 hours
 
 // We check if new reports meet the criteria to trigger a trending alert
 // This function is called whenever a new report is created
@@ -100,11 +100,12 @@ async function checkTrending(report) {
             {
               $set: { 
                 reports: allReportIds,
-                reportCount: allReportIds.length, // Use the actual unique count
+                reportCount: allReportIds.length, // We use the actual unique count
                 severity: determineSeverityLevel(
-                  allReportIds.length, // Use the actual unique count for severity calculation
+                  allReportIds.length, // and the actual unique count for severity calculation
                   rule
                 ),
+                summary: generateAlertSummary(type, allReportIds.length, severity),
                 expiresAt: new Date(Date.now() + ALERT_EXPIRY_HOURS * 3600000)
               }
             }

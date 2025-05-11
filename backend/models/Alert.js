@@ -19,10 +19,10 @@ const alertSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: ([lng, lat]) => (
-          lng >= -13.5 && lng <= -1 &&  // Morocco bounds
-          lat >= 27 && lat <= 36
+          lng >= -17.5 && lng <= -1 && 
+          lat >= 20.5 && lat <= 36      
         ),
-        message: 'Coordinates must be within Morocco'
+        message: 'Coordinates must be within Morocco or Western Sahara'
       },
       },
     },

@@ -5,6 +5,7 @@ const Zone  = require('../models/Zone');
 const Route = require('../models/Route');
 const turf = require('@turf/turf'); // For geospatial analysis
 const mongoose = require('mongoose');
+const { broadcast } = require('../utils/webSocketService');
 
 // Function to validate coordinates, also a prototype of a middleware that can be used if the API grows
 // This function checks if the coordinates are valid and within Morocco's bounds
@@ -29,8 +30,8 @@ function validateCoordinates(coord) {
 // Function to generate a route between two points while avoiding hazards and alerts
 // This function is called when an admin wants to create a route for evacuation, supply, or emergency access
 const generateRoute = asyncHandler(async (req, res) => {
-  const { start, end, routeType } = req.body;
-  if (!start || !end || !routeType) {
+  const { name, start, end, routeType } = req.body;
+  if ( !start || !end || !routeType) {
     return res.status(400).json({ 
       success: false, 
       message: 'Missing required fields' 
@@ -79,7 +80,7 @@ const generateRoute = asyncHandler(async (req, res) => {
 
   // Here we save the generated route to the database
   const newRoute = await Route.create({
-    name: `${routeType} Route ${new Date().toLocaleString()}`,
+    name: name || `${routeType} Route ${new Date().toLocaleString()}`,
     type: routeType,
     geometry: {
       type: 'LineString',
@@ -96,6 +97,8 @@ const generateRoute = asyncHandler(async (req, res) => {
     // Tagging the route with the admin who created it
     createdBy: req.admin._id
   });
+
+  broadcast(newRoute);
 
   res.status(201).json({
     success: true,

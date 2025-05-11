@@ -24,6 +24,7 @@ const reportRoutes = require('./routes/reportRoutes');
 const zoneRoutes = require('./routes/zoneRoutes');
 const routeRoutes = require('./routes/routeRoutes');
 const operationRoutes = require('./routes/operationRoutes');
+const trendingAlertRoutes = require('./routes/trendingAlertRoutes');
 
 
 // Middleware to parse incoming JSON requests
@@ -39,6 +40,7 @@ app.use('/api/reports', reportRoutes);
 app.use('/api/zones', zoneRoutes);
 app.use('/api/routes', routeRoutes);
 app.use('/api/operations', operationRoutes);
+app.use('/api/trending', trendingAlertRoutes);
 
 // We create an HTTP server from the Express app
 const server = http.createServer(app);

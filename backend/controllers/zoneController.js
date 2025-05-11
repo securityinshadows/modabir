@@ -10,7 +10,23 @@ const mongoose = require('mongoose');
 // Zones will be sent by authorities to citizens to facilate real-time information sharing and coordinate action
 const createZone = asyncHandler(async (req, res) => {
   try {
-    const { name, type, coordinates, description } = req.body;
+    const { name, type, description } = req.body;
+
+    // Modify the coordinates validation to handle both formats:
+const rawCoordinates = req.body.coordinates || 
+(req.body.geometry && req.body.geometry.coordinates && req.body.geometry.coordinates[0]);
+
+if (!rawCoordinates || !Array.isArray(rawCoordinates)) {
+return res.status(400).json({
+success: false,
+message: 'Valid coordinates array is required'
+});
+}
+
+// Flatten nested arrays if necessary
+const coordinates = Array.isArray(rawCoordinates[0][0]) 
+? rawCoordinates[0]  // If already nested, use the inner array
+: rawCoordinates;     // If flat, use directly
 
     // We check if required fields are missing or malformed
     if (!name || !type || !coordinates || !Array.isArray(coordinates)) {

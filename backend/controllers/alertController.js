@@ -5,6 +5,7 @@ const asyncHandler = require('express-async-handler');
 const Alert = require('../models/Alert');
 // Mongoose is used to interact with MongoDB
 const mongoose = require('mongoose');
+const { broadcast } = require('../utils/webSocketService');
 
 // @desc    Create a new alert
 // @route   POST /api/alerts
@@ -50,6 +51,8 @@ const createAlert = asyncHandler(async (req, res) => {
     createdBy: req.admin._id,
     expiresAt,
   });
+  // We broadcast the new alert to all connected clients
+  broadcast(alert);
     // We send a success response with the alert data and expiration time 
   res.status(201).json({
 
@@ -223,10 +226,11 @@ const updateAlert = asyncHandler(async (req, res) => {
     }
 
     const [lng, lat] = coordinates;
-    if (lng < -13.5 || lng > -1 || lat < 27 || lat > 36) {
+    if (lng < -17.5 || lng > -1 || lat < 20.5 || lat > 36) {
       res.status(400).json({ success: false, message: 'Coordinates must be within Morocco' });
       return;
     }
+    
 
     updateFields['location'] = {
       type: 'Point',
@@ -252,6 +256,7 @@ const updateAlert = asyncHandler(async (req, res) => {
   // We log the update activity
   console.log(`Alert ${id} updated by admin ${req.admin._id} at ${new Date().toISOString()}`);
   console.log('Changes made:', updateFields);
+  broadcast(updated);
   // We send a success response with the updated alert data
   res.status(200).json({
     success: true,
@@ -282,6 +287,8 @@ const deleteAlert = asyncHandler(async (req, res) => {
   }
   // We log the deletion activity
   console.log(`Alert ${id} deleted by admin ${req.admin._id} at ${new Date().toISOString()}`);
+
+  broadcast(deletedAlert);
   // We return a success response with the deleted alert id
   res.status(200).json({
     success: true,

@@ -4,6 +4,7 @@ const Report = require('../models/Report');
 const { canPostReport } = require('../utils/spamGuard');
 const { checkTrending } = require('../utils/trendingMonitor');
 const mongoose = require('mongoose');
+const { broadcast } = require('../utils/webSocketService');
 
 // @desc    Create a new emergency report
 // @route   POST /api/reports
@@ -18,7 +19,7 @@ const createReport = asyncHandler(async (req, res) => {
   if (!type || !urgency || !coordinates || !anonId) {
     return res.status(400).json({ 
       success: false, 
-      message: 'Missing required fields: type, urgency, coordinates, or anonId' 
+      message: 'Missing required fields, please provide all required fields' 
     });
   }
 
@@ -62,9 +63,12 @@ const createReport = asyncHandler(async (req, res) => {
   // This function checks if the report meets the criteria to trigger a trending alert
   try {
     checkTrending(report);
+  
   } catch (error) {
     console.error('Trending analysis failed:', error);
   }
+
+  broadcast('newReport', report);
 
   // Return success response
   res.status(201).json({
@@ -259,7 +263,7 @@ const getSimilarReports = asyncHandler(async (req, res) => {
           $geoWithin: {
             $centerSphere: [
               reference.location.coordinates,
-              3 / 6378.1 // 3km radius
+            20 / 6378.1 // 20km radius
             ]
           }
         }
@@ -357,7 +361,7 @@ const deleteSimilarReports = asyncHandler(async (req, res) => {
           $geoWithin: {
             $centerSphere: [
               reference.location.coordinates,
-              3 / 6378.1 // 3km radius
+              20 / 6378.1 // 20km radius
             ]
           }
         }
