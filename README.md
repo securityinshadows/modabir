@@ -91,7 +91,7 @@ To run this project locally, follow these steps:
 Before running the project, you'll need to configure some environment variables. These are stored in a .env file that should never be committed to GitHub. Instead, an example .env file is provided to help you set up your own .env file.
 .env.example:
 
-You will find a file named .env.example in the root of the project. This file contains placeholder values for required environment variables. Do not use this exact file for your own configuration, but instead, create your own .env file based on it and name it .env.config .
+You will find a file named .env.example in the root of the project. This file contains placeholder values for required environment variables. Do not use this exact file for your own configuration, but instead, create your own .env file based on it and name it 'config.env'.
 
 Example .env.example:
 ```
