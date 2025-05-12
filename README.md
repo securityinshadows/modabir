@@ -111,11 +111,11 @@ JWT_EXPIRE=30d
 ```
 ### To set up your own .env file:
 
-1. Copy the contents of .env.example into a new file called .env.
+1. Copy the contents of .env.example into a new file called config.env.
 
 2. Replace the placeholder values (e.g., <username>, <password>, etc.) with your own credentials.
 
-3. Make sure to never commit your .env file to version control! It contains sensitive data like your MongoDB credentials and JWT secret.
+3. (For developers) Make sure to never commit your config.env file to version control! Use example.env.
 ## Usage
 ### Running Locally:
 Once you have installed the dependencies and set up your .env file, you can start the backend and frontend locally as described in the Installation section. The backend will run on the port defined in your .env file (by default, 3000), and the frontend will run on a different port (default 5173 if you're using Vite).
