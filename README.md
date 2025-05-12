@@ -55,7 +55,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
   ```bash
-  git clone https://github.com/your-username/modabir.git
+  git clone https://github.com/securityinshadows/modabir.git
   cd modabir
   ```
 2. Navigate to the backend folder:
